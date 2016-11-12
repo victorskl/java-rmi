@@ -1,0 +1,48 @@
+<project name="rmi-deploy" basedir="." default="deploy">
+
+    <property name="httpd.dir" value="deploy/httpd"/>
+    <property name="registry.dir" value="deploy/registry"/>
+    <property name="server.dir" value="deploy/server"/>
+    <property name="client.dir" value="deploy/client"/>
+
+    <target name="clean">
+        <delete dir="deploy"/>
+    </target>
+
+    <target name="deploy">
+        <mkdir dir="deploy"/>
+        <mkdir dir="${httpd.dir}"/>
+        <mkdir dir="${httpd.dir}/rmi/client"/>
+        <mkdir dir="${registry.dir}"/>
+        <mkdir dir="${server.dir}"/>
+        <mkdir dir="${client.dir}"/>
+
+        <copy todir="${httpd.dir}">
+            <file file="httpd-server/target/httpd-server-1.0-SNAPSHOT-jar-with-dependencies.jar"/>
+            <fileset dir="oracle-rmi-tute/rmi-common/target/classes"/>
+            <fileset dir="httpd-server/script"/>
+        </copy>
+
+        <copy file="oracle-rmi-tute/rmi-client/target/classes/rmi/client/Pi.class" todir="${httpd.dir}/rmi/client"/>
+
+        <copy todir="${registry.dir}">
+            <file file="startregistry.bat"/>
+            <file file="startregistry.sh"/>
+        </copy>
+
+        <copy todir="${server.dir}">
+            <file file="oracle-rmi-tute/rmi-common/target/rmi-common-1.0-SNAPSHOT.jar"/>
+            <file file="oracle-rmi-tute/rmi-server/target/rmi-server-1.0-SNAPSHOT.jar"/>
+            <fileset dir="oracle-rmi-tute/rmi-server/script"/>
+            <file file="security.policy"/>
+        </copy>
+
+        <copy todir="${client.dir}">
+            <file file="oracle-rmi-tute/rmi-common/target/rmi-common-1.0-SNAPSHOT.jar"/>
+            <file file="oracle-rmi-tute/rmi-client/target/rmi-client-1.0-SNAPSHOT.jar"/>
+            <fileset dir="oracle-rmi-tute/rmi-client/script"/>
+            <file file="security.policy"/>
+        </copy>
+    </target>
+
+</project>

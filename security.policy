@@ -1,0 +1,11 @@
+grant codeBase "file:/./-" {
+    permission java.security.AllPermission;
+};
+
+// Fine tune according to:
+// http://docs.oracle.com/javase/8/docs/technotes/guides/security/permissions.html
+
+//grant codeBase "file:/./-" {
+//    permission java.net.SocketPermission "127.0.0.1:1099", "connect, resolve";
+//    permission java.io.FilePermission "./-", "read";
+//};
